@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>选项卡－－slot的应用</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="app" v-cloak>
+        <tabs v-model="activeKey">
+            <pane label="标题一"　name="0">
+                <p>这是标题一的内容</p>
+            </pane>
+            <pane label="标题二"　name="１">
+                <p>这是标题二的内容</p>
+            </pane>
+            <pane label="标题三"　name="2">
+                <p>这是标题三的内容</p>
+            </pane>
+        </tabs>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="pane.js"></script>
+    <script src="tabs.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                activeKey:'0'
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+</head>
+<body>
+    <div id="app" v-cloak>
+        <div class="main" v-clickoutside="handleClose">
+            <button @click="show = !show">点击显示</button>
+            <div class="dropdown" v-show = "show">
+                <p>
+                    这里就是显示的部分，当你点击外面的时候，就会关闭我
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="./clickoutside.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                show:false
+            },
+            methods:{
+                handleClose:function(){
+                    this.show = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
