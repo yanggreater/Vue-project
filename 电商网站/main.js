@@ -5,8 +5,8 @@ import App from './App.vue';
 import './style.css'
 import Routers from './router.js'
 
-import product_data from './project.js'
-
+import product_data from './project.js'//引入虚拟数据
+import $ from './libs/util.js'//引入公共函数文件
 Vue.use(Vuex);
 Vue.use(VueRouter);
 
@@ -21,8 +21,9 @@ router.beforeEach((to,from,next) => {
     next();
 });
 router.afterEach((to,from,next) => {
-    window.screenTo(0,0);
+    window.screenTo=(0,0);
 });
+
 
 //状态管理配置
 const store = new Vuex.Store({
@@ -33,7 +34,14 @@ const store = new Vuex.Store({
         cartList:[]
     },
     getters:{
-
+        brands:state => {
+            const brand = state.productList.map(item => item.brand);
+            return $.getFilterArray(brand);
+        },
+        colors:state => {
+            const color = state.productList.map(item => item.color);
+            return $.getFilterArray(color);
+        }
     },
     mutations:{
         setProductList (state,data) {

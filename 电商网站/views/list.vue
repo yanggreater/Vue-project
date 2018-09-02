@@ -1,6 +1,24 @@
 <template>
     <div v-show="list.length">
         <div class="list-control">
+            <div class="list-control-filter">
+                <span>品牌:</span>
+                <span
+                    class="list-control-filter-item"
+                    :class="{on:item === filterBrand}"
+                    v-for="item in brands"
+                    @click="handleFilterBrand(item)"
+                >{{item}}</span>
+            </div>
+            <div class="list-control-filter">
+                <span>颜色:</span>
+                <span
+                    class="list-control-filter-item"
+                    :class="{on:item === filterColor}"
+                    v-for="item in colors"
+                    @click="handleFilterColor(item)"
+                >{{item}}</span>
+            </div>
             <div class="list-control-order">
                 <span>排序:</span>
                 <span
@@ -24,6 +42,9 @@
             </div>
         </div>
         <Product v-for="item in filteredAndOrderedList" :info="item" :key="item.id"></Product>
+        <div v-if="!filteredAndOrderedList.length" class="product-not-found">
+            暂无相关商品
+        </div>
     </div>
 </template>
 
@@ -32,7 +53,9 @@ import Product from '../components/product.vue'
 export default {
     data() {
         return{
-            order:''
+            order:'',
+            filterBrand:'',
+            filterColor:''
         } 
     },  
     components:{
@@ -44,6 +67,12 @@ export default {
         },
         filteredAndOrderedList() {
             let list = [...this.list];
+            if(this.filterBrand!==''){
+                list = list.filter(item => item.brand ===this.filterBrand);
+            }
+            if(this.filterColor !==''){
+                list = list.filter(item => item.color === this.filterColor);
+            }
             if(this.order !== '') {
                 if(this.order ==='sales'){
                     list.sort((a,b) => {return b.sales-a.sales})
@@ -54,6 +83,12 @@ export default {
                 }
             }
             return list;
+        },
+        brands() {
+            return this.$store.getters.brands;
+        },
+        colors() {
+            return this.$store.getters.colors;
         }
     },
     methods:{
@@ -68,6 +103,20 @@ export default {
                 this.order = 'cost-asc'
             }else{
                 this.order ='cost-desc'
+            }
+        },
+        handleFilterBrand (brand) {
+            if(this.filterBrand === brand){
+                this.filterBrand = ''
+            }else{
+                this.filterBrand = brand
+            }
+        },
+        handleFilterColor (color) {
+            if(this.filterColor === color){
+                this.filterColor = ''
+            }else{
+                this.filterColor = color
             }
         }
     },
