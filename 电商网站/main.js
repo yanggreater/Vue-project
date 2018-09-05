@@ -46,6 +46,26 @@ const store = new Vuex.Store({
     mutations:{
         setProductList (state,data) {
             state.productList =data;
+        },
+        addCart (state,id) {//将想要添加的id传入,然后在购物车的页面根据id在获取一次数据
+            const item = state.cartList.find(item => item.id === id);
+            if(item){
+                item.count++;
+            }else{
+                state.cartList.push({
+                    id:id,
+                    count:1
+                })
+            }
+        },
+        handleCount (state,obj) {
+            state.cartList[obj.index].count +=obj.num;
+        },
+        handleDelete(state,index) {
+            state.cartList.splice(index,1);
+        },
+        emptyCart (state) {
+            state.cartList = [];
         }
     },
     actions:{
@@ -54,6 +74,14 @@ const store = new Vuex.Store({
             setTimeout(() => {
                 context.commit('setProductList',product_data);
             },500);
+        },
+        buy(context){
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    context.commit('emptyCart');
+                    resolve();
+                }, 500);
+            });
         }
     }
 });

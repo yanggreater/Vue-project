@@ -1,6 +1,6 @@
 <template>
     <div class="product">
-        <router-link :to="'/product/'+info.id" class="product-main">
+        <router-link :to="'/productDetail/'+info.id" class="product-main">
             <img :src="info.image">
             <h4>{{info.name}}</h4>
             <div class="product-color" :style="{background:colors[info.color]}"></div>
