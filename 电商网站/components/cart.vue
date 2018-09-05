@@ -33,12 +33,23 @@
         <div class="cart-empty" v-if="!cartList.length">
             购物车为空
         </div>
+        <div class="cart-promotion" v-if="cartList.length">
+            <span>使用优惠码:</span>
+            <input type="text" v-model="promotionCode"/>
+            <span
+                class="cart-control-promotion"
+                @click="handlePromotion"
+            >验证</span>
+        </div>
         <div class="cart-footer" v-show="cartList.length">
             <div class="cart-footer-desc">
                 共计{{countAll}}件商品
             </div>
             <div class="cart-footer-desc">
-                应付总额￥<span>{{costAll}}</span>
+                应付总额￥<span>{{costAll-promotion}}</span>
+                <template v-if="promotion">
+                    (优惠￥<span>{{promotion}}</span>)
+                </template>
             </div>
             <div class="cart-footer-desc">
                 <div class="cart-control-order" @click="handleBuy">现在结算</div>
@@ -54,6 +65,8 @@ export default {
         return{
             productList:product_data,
             //cartList:this.$store.state.cartList
+            promotion:0,
+            promotionCode:''
         }
     },
     computed:{
@@ -99,6 +112,17 @@ export default {
             this.$store.dispatch('buy').then(() => {
                 window.alert('购买成功!');
             })
+        },
+        handlePromotion () {
+            if(this.promotionCode === ''){
+                alert('请输入优惠码');
+            }else{
+                if(this.promotionCode !== 'vue.js'){
+                    alert('验证码错误');
+                }else{
+                    this.promotion = 500;
+                }
+            }
         }
     }
 }

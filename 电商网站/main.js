@@ -58,7 +58,7 @@ const store = new Vuex.Store({
                 })
             }
         },
-        handleCount (state,obj) {
+        handleCount (state,obj) {//尽量不要这样去传ｉｎｄｅｘ去修改数组
             state.cartList[obj.index].count +=obj.num;
         },
         handleDelete(state,index) {
